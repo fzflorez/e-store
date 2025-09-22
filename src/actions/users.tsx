@@ -29,20 +29,28 @@ export const logOutAction = async () => {
   }
 };
 
-export const signUpAction = async (email: string, password: string) => {
+export const signUpAction = async (
+  fullName: string,
+  email: string,
+  password: string,
+) => {
   try {
     const supabase = await createClient();
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { fullName },
+      },
     });
-    if (error) throw error;
 
-    const userId = data.user?.id;
-    if (!userId) throw new Error("Identificador de usuario no encontrado");
+    if (error) throw error;
 
     return { errorMessage: null };
   } catch (error) {
-    return { errorMessage: "Ha ocurrido un error, porfavor intenta de nuevo." };
+    return {
+      errorMessage: "Ha ocurrido un error, por favor intenta de nuevo.",
+    };
   }
 };

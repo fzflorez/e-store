@@ -23,6 +23,7 @@ export const AuthForm = ({ type }: Props) => {
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
+      const fullName = !isLoginForm ? (formData.get("fullName") as string) : "";
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
 
@@ -34,7 +35,8 @@ export const AuthForm = ({ type }: Props) => {
         title = "Sesión iniciada";
         description = "Has iniciado sesión correctamente";
       } else {
-        errorMessage = (await signUpAction(email, password)).errorMessage;
+        errorMessage = (await signUpAction(fullName, email, password))
+          .errorMessage;
         title = "Registrado";
         description = "Verifica tu correo electrónico para confirmar tu cuenta";
       }
@@ -52,6 +54,20 @@ export const AuthForm = ({ type }: Props) => {
     <form action={handleSubmit} className="flex flex-col gap-6">
       <CardContent>
         <div className="grid w-full items-center gap-4">
+          {!isLoginForm && (
+            <div className="grid w-full gap-2">
+              <Label htmlFor="fullName">Nombre</Label>
+              <Input
+                id="fullName"
+                name="fullName"
+                type="text"
+                placeholder="Ingrese su nombre"
+                required
+                disabled={isPending}
+              />
+            </div>
+          )}
+
           <div className="grid w-full gap-2">
             <Label htmlFor="email">Correo Electrónico</Label>
             <Input
