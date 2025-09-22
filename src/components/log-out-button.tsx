@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
+import { DropdownMenuItem } from "./ui/dropdown-menu";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { logOutAction } from "../actions/users";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 export const LogOutButton = () => {
   const [loading, setLoading] = useState(false);
@@ -30,13 +30,12 @@ export const LogOutButton = () => {
   };
 
   return (
-    <Button
-      size="sm"
-      variant="outline"
-      disabled={loading}
+    <DropdownMenuItem
       onClick={handleLogOut}
+      className="text-destructive flex cursor-pointer items-center gap-2"
     >
-      {loading ? <Loader2 className="animate-spin" /> : "Log Out"}
-    </Button>
+      <LogOut className="text-primary h-4 w-4" />
+      Sign Out
+    </DropdownMenuItem>
   );
 };
