@@ -9,7 +9,7 @@ export const HeroSection = async () => {
   const fullName = user?.user_metadata.fullName;
 
   return (
-    <section className="bg-secondary py-20">
+    <section className="bg-secondary pt-36 pb-20">
       <div className="container mx-auto flex flex-col items-center justify-center gap-8 px-5 text-center">
         <h1 className="text-4xl font-bold md:text-6xl">
           Bienvenido a nuestra tienda

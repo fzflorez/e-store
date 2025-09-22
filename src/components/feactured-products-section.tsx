@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { Star } from "lucide-react";
 import { featuredProducts } from "../db/feactured-products";
+import { formatCurrency } from "../helpers";
 
 export const FeacturedProductsSection = () => {
   return (
@@ -61,10 +62,12 @@ export const FeacturedProductsSection = () => {
                 </span>
               </div>
               <div className="mb-4 flex items-center gap-2">
-                <span className="text-xl font-bold">${product.price}</span>
+                <span className="text-xl font-bold">
+                  {formatCurrency(product.price)}
+                </span>
                 {product.originalPrice && (
                   <span className="text-muted-foreground text-sm line-through">
-                    ${product.originalPrice}
+                    {formatCurrency(product.originalPrice)}
                   </span>
                 )}
               </div>
@@ -78,7 +81,7 @@ export const FeacturedProductsSection = () => {
 
       <div className="flex w-full justify-center pt-10">
         <Button asChild className="text-base">
-          <Link href="/products">Ver Todos los Productos</Link>
+          <Link href="/products">Ver Más Productos</Link>
         </Button>
       </div>
     </section>
