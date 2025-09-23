@@ -12,8 +12,11 @@ export const loginAction = async (email: string, password: string) => {
     if (error) throw error;
 
     return { errorMessage: null };
-  } catch (error) {
-    return { errorMessage: "Ha ocurrido un error, porfavor intenta de nuevo." };
+  } catch (error: any) {
+    return {
+      errorMessage:
+        error?.message || "Ha ocurrido un error, por favor intenta de nuevo.",
+    };
   }
 };
 
@@ -24,8 +27,11 @@ export const logOutAction = async () => {
     if (error) throw error;
 
     return { errorMessage: null };
-  } catch (error) {
-    return { errorMessage: "Ha ocurrido un error, porfavor intenta de nuevo." };
+  } catch (error: any) {
+    return {
+      errorMessage:
+        error?.message || "Ha ocurrido un error, por favor intenta de nuevo.",
+    };
   }
 };
 
@@ -45,12 +51,29 @@ export const signUpAction = async (
       },
     });
 
-    if (error) throw error;
+    console.log(
+      "📩 Respuesta de Supabase signUp:",
+      JSON.stringify(data, null, 2),
+    );
+
+    if (error) {
+      return { errorMessage: error.message };
+    }
+
+    // 🚨 Caso especial: usuario ya existe
+    if (
+      data.user &&
+      Array.isArray(data.user.identities) &&
+      data.user.identities.length === 0
+    ) {
+      return { errorMessage: "Este correo ya está registrado" };
+    }
 
     return { errorMessage: null };
-  } catch (error) {
+  } catch (error: any) {
     return {
-      errorMessage: "Ha ocurrido un error, por favor intenta de nuevo.",
+      errorMessage:
+        error?.message || "Ha ocurrido un error, por favor intenta de nuevo.",
     };
   }
 };

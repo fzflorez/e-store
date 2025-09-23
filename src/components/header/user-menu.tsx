@@ -23,7 +23,9 @@ export const UserMenu = async () => {
           <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold">
             {fullName.charAt(0).toUpperCase()}
           </div>
-          <span className="hidden text-base sm:block">{fullName}</span>
+          <span className="hidden text-base sm:block">
+            {fullName.split(" ")[0]}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">

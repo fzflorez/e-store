@@ -1,6 +1,8 @@
 "use client";
 
 import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CardContent, CardFooter } from "./ui/card";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -11,6 +13,15 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { loginAction, signUpAction } from "../actions/users";
 
+// 📌 Importamos schemas y defaults
+import {
+  loginSchema,
+  registerSchema,
+  loginDefaultValues,
+  registerDefaultValues,
+} from "../schemas/auth-schema";
+import { LoginFormData, RegisterFormData } from "../types";
+
 type Props = {
   type: "login" | "signUp";
 };
@@ -18,24 +29,33 @@ type Props = {
 export const AuthForm = ({ type }: Props) => {
   const isLoginForm = type === "login";
   const [isPending, startTransition] = useTransition();
-
   const router = useRouter();
 
-  const handleSubmit = (formData: FormData) => {
+  const form = useForm<LoginFormData | RegisterFormData>({
+    resolver: zodResolver(isLoginForm ? loginSchema : registerSchema),
+    defaultValues: isLoginForm ? loginDefaultValues : registerDefaultValues,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = form;
+
+  const onSubmit = (data: LoginFormData | RegisterFormData) => {
     startTransition(async () => {
-      const fullName = !isLoginForm ? (formData.get("fullName") as string) : "";
-      const email = formData.get("email") as string;
-      const password = formData.get("password") as string;
+      const { fullName, email, password } = data as RegisterFormData;
 
       let errorMessage;
       let title;
       let description;
+
       if (isLoginForm) {
         errorMessage = (await loginAction(email, password)).errorMessage;
         title = "Sesión iniciada";
         description = "Has iniciado sesión correctamente";
       } else {
-        errorMessage = (await signUpAction(fullName, email, password))
+        errorMessage = (await signUpAction(fullName!, email, password))
           .errorMessage;
         title = "Registrado";
         description = "Verifica tu correo electrónico para confirmar tu cuenta";
@@ -43,15 +63,30 @@ export const AuthForm = ({ type }: Props) => {
 
       if (!errorMessage) {
         toast.success(title, { description });
-        router.replace("/");
+        if (isLoginForm) {
+          router.replace("/");
+        } else {
+          router.replace("/login");
+        }
       } else {
-        toast.error(errorMessage);
+        if (errorMessage.includes("registrado")) {
+          toast.error("El correo ya está registrado", {
+            description: "Por favor inicia sesión con tu cuenta",
+          });
+          router.push("/login");
+        } else {
+          toast.error(errorMessage);
+        }
       }
     });
   };
 
   return (
-    <form action={handleSubmit} className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6"
+      noValidate
+    >
       <CardContent>
         <div className="grid w-full items-center gap-4">
           {!isLoginForm && (
@@ -59,12 +94,16 @@ export const AuthForm = ({ type }: Props) => {
               <Label htmlFor="fullName">Nombre</Label>
               <Input
                 id="fullName"
-                name="fullName"
                 type="text"
                 placeholder="Ingrese su nombre"
-                required
                 disabled={isPending}
+                {...register("fullName")}
               />
+              {!isLoginForm && (errors as any)?.fullName && (
+                <p className="text-sm text-red-500">
+                  {(errors as any).fullName?.message}
+                </p>
+              )}
             </div>
           )}
 
@@ -72,27 +111,32 @@ export const AuthForm = ({ type }: Props) => {
             <Label htmlFor="email">Correo Electrónico</Label>
             <Input
               id="email"
-              name="email"
               type="email"
               placeholder="Ingrese su correo electrónico"
-              required
               disabled={isPending}
+              {...register("email")}
             />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="grid w-full gap-2">
             <Label htmlFor="password">Contraseña</Label>
             <Input
               id="password"
-              name="password"
               type="password"
               placeholder="Ingrese su contraseña"
-              required
               disabled={isPending}
+              {...register("password")}
             />
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password.message}</p>
+            )}
           </div>
         </div>
       </CardContent>
+
       <CardFooter className="flex flex-col items-center justify-center gap-4">
         <Button className="w-full cursor-pointer" disabled={isPending}>
           {isPending ? (
@@ -103,6 +147,7 @@ export const AuthForm = ({ type }: Props) => {
             "Registrarse"
           )}
         </Button>
+
         <p className="text-sm">
           {isLoginForm
             ? "¿Aún no tienes una cuenta?"

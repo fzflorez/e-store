@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle } from "@/src/components/ui/card";
 
 const LoginPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center pt-24">
       <Card className="w-full max-w-xl">
         <CardHeader>
           <CardTitle className="flex justify-center text-center text-2xl font-bold">

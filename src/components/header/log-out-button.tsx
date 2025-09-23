@@ -35,7 +35,7 @@ export const LogOutButton = () => {
       className="text-destructive flex cursor-pointer items-center gap-2"
     >
       <LogOut className="text-primary h-4 w-4" />
-      Sign Out
+      Salir
     </DropdownMenuItem>
   );
 };
