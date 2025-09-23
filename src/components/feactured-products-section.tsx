@@ -72,7 +72,7 @@ export const FeacturedProductsSection = () => {
                 )}
               </div>
               <Button asChild className="w-full">
-                <Link href={`/products/${product.id}`}>View Details</Link>
+                <Link href={`/products/${product.id}`}>Ver detalles</Link>
               </Button>
             </CardContent>
           </Card>

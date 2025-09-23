@@ -9,17 +9,16 @@ const ProductsPage = () => {
     useProducts();
 
   return (
-    <section className="pt-28 pb-20">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+    <section className="pt-24 pb-10">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 xl:px-0">
         <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-semibold md:text-3xl">Productos</h2>
-          <span className="text-muted-foreground text-base md:text-lg">
+          <h2 className="text-2xl font-bold md:text-3xl">Productos</h2>
+          <span className="text-muted-foreground text-sm md:text-base">
             Descubra nuestra increíble colección de productos.
           </span>
         </div>
 
         <div className="space-y-6">
-          {/* 🔎 Filtros */}
           <ProductFiltersComponent
             categories={categories}
             filters={filters}
