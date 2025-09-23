@@ -1,11 +1,11 @@
-import { Button } from "./ui/button";
-import { getUser } from "../auth/server";
+import { Button } from "../ui/button";
+import { getUser } from "../../auth/server";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 import { LogOutButton } from "./log-out-button";
 
 export const UserMenu = async () => {

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { getUser } from "../auth/server";
+import { Button } from "../ui/button";
+import { getUser } from "../../auth/server";
 import { ShoppingCart } from "lucide-react";
 import { UserMenu } from "./user-menu";
 

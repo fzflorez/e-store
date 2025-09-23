@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { DropdownMenuItem } from "./ui/dropdown-menu";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { logOutAction } from "../actions/users";
+import { logOutAction } from "../../actions/users";
 import { toast } from "sonner";
 
 export const LogOutButton = () => {

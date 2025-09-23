@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { Star } from "lucide-react";
 import { featuredProducts } from "../db/feactured-products";
-import { formatCurrency } from "../helpers";
+import { formatCurrency } from "../lib/utils";
 
 export const FeacturedProductsSection = () => {
   return (

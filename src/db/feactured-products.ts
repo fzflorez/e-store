@@ -1,3 +1,5 @@
+import { Product } from "../types";
+
 export const featuredProducts = [
   {
     id: "1",
@@ -25,30 +27,33 @@ export const featuredProducts = [
   },
 ];
 
-export const allProducts = [
+export const allProducts: Product[] = [
   {
     id: "1",
     name: "Audífonos inalámbricos premium",
     price: 299900,
     originalPrice: 399900,
-    image: "/audifonos-premium.png",
+    image: "/audifonos-premium.jpg",
     rating: 4.8,
+    category: "Audio",
   },
   {
     id: "2",
     name: "Teclado mecánico retroiluminado",
     price: 249900,
     originalPrice: 329900,
-    image: "/teclado-mecanico.png",
+    image: "/teclado-mecanico.jpg",
     rating: 4.6,
+    category: "Periféricos",
   },
   {
     id: "3",
     name: "Mouse gamer ergonómico",
     price: 159900,
     originalPrice: 219900,
-    image: "/mouse-gamer.png",
+    image: "/mouse-gamer.jpg",
     rating: 4.5,
+    category: "Periféricos",
   },
   {
     id: "4",
@@ -57,6 +62,7 @@ export const allProducts = [
     originalPrice: 259900,
     image: "/parlante-portatil.png",
     rating: 4.7,
+    category: "Audio",
   },
   {
     id: "5",
@@ -65,6 +71,7 @@ export const allProducts = [
     originalPrice: 829900,
     image: "/monitor-24.png",
     rating: 4.4,
+    category: "Monitores",
   },
   {
     id: "6",
@@ -73,6 +80,7 @@ export const allProducts = [
     originalPrice: 249900,
     image: "/camara-web.png",
     rating: 4.3,
+    category: "Accesorios",
   },
   {
     id: "7",
@@ -81,6 +89,7 @@ export const allProducts = [
     originalPrice: 349900,
     image: "/disco-duro-1tb.png",
     rating: 4.6,
+    category: "Almacenamiento",
   },
   {
     id: "8",
@@ -89,6 +98,7 @@ export const allProducts = [
     originalPrice: 1099900,
     image: "/silla-ergonomica.png",
     rating: 4.5,
+    category: "Oficina",
   },
   {
     id: "9",
@@ -97,6 +107,7 @@ export const allProducts = [
     originalPrice: 179900,
     image: "/bateria-portatil.png",
     rating: 4.7,
+    category: "Accesorios",
   },
   {
     id: "10",
@@ -105,5 +116,6 @@ export const allProducts = [
     originalPrice: 649900,
     image: "/smartwatch.png",
     rating: 4.6,
+    category: "Wearables",
   },
 ];

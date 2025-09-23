@@ -9,7 +9,7 @@ import { Menu, Store } from "lucide-react";
 import Link from "next/link";
 import { NavigationPanel, NavigationPanelMobile } from "./navigation-panel";
 import { RightSideActions } from "./right-side-actions";
-import { DarkModeToggle } from "./dark-mode-toggle";
+import { DarkModeToggle } from "../dark-mode-toggle";
 
 export default function Header() {
   return (

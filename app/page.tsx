@@ -6,7 +6,7 @@ export default async function Home() {
   return (
     <div>
       <HeroSection />
-      <div className="mx-auto w-full max-w-6xl px-5">
+      <div className="mx-auto w-full max-w-6xl px-5 xl:p-0">
         <StatsSection />
         <FeacturedProductsSection />
       </div>
