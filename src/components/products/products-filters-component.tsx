@@ -14,7 +14,18 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Checkbox } from "../ui/checkbox";
-import { ProductFilters } from "@/src/lib/products";
+import { CheckedState } from "@radix-ui/react-checkbox"; // ✅ para tipar correctamente
+
+// 🔒 Tipado fuerte para los filtros
+export interface ProductFilters {
+  search?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: "newest" | "name" | "price" | "rating";
+  sortOrder?: "asc" | "desc";
+  inStock?: boolean;
+}
 
 interface Props {
   categories: string[];
@@ -31,7 +42,11 @@ export function ProductFiltersComponent({
 }: Props) {
   const [showFilters, setShowFilters] = useState(false);
 
-  const handleFilterChange = (key: keyof ProductFilters, value: any) => {
+  // 🔒 Genérico para tipar correctamente el valor según la clave
+  const handleFilterChange = <K extends keyof ProductFilters>(
+    key: K,
+    value: ProductFilters[K],
+  ) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 
@@ -41,7 +56,6 @@ export function ProductFiltersComponent({
 
   return (
     <div className="space-y-4">
-      {/* 🔍 Buscador y Toggle */}
       <div className="flex flex-col gap-4 sm:flex-row">
         <div className="relative flex-1">
           <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
@@ -81,7 +95,6 @@ export function ProductFiltersComponent({
         </div>
       </div>
 
-      {/* 🎛 Panel de filtros */}
       {showFilters && (
         <Card>
           <CardHeader>
@@ -94,7 +107,7 @@ export function ProductFiltersComponent({
                 <Label>Categoría</Label>
                 <Select
                   value={filters.category || "all"}
-                  onValueChange={(value) =>
+                  onValueChange={(value: string) =>
                     handleFilterChange(
                       "category",
                       value === "all" ? undefined : value,
@@ -115,13 +128,13 @@ export function ProductFiltersComponent({
                 </Select>
               </div>
 
-              {/* Precio */}
+              {/* Precio mínimo */}
               <div className="space-y-2">
                 <Label>Precio Mínimo</Label>
                 <Input
                   type="number"
                   placeholder="$0"
-                  value={filters.minPrice || ""}
+                  value={filters.minPrice ?? ""}
                   onChange={(e) =>
                     handleFilterChange(
                       "minPrice",
@@ -131,12 +144,13 @@ export function ProductFiltersComponent({
                 />
               </div>
 
+              {/* Precio máximo */}
               <div className="space-y-2">
                 <Label>Precio Máximo</Label>
                 <Input
                   type="number"
                   placeholder="$1.000.000"
-                  value={filters.maxPrice || ""}
+                  value={filters.maxPrice ?? ""}
                   onChange={(e) =>
                     handleFilterChange(
                       "maxPrice",
@@ -146,13 +160,16 @@ export function ProductFiltersComponent({
                 />
               </div>
 
-              {/* Orden */}
+              {/* Ordenar por */}
               <div className="space-y-2">
                 <Label>Ordenar por</Label>
                 <Select
                   value={filters.sortBy || "newest"}
-                  onValueChange={(value) =>
-                    handleFilterChange("sortBy", value as any)
+                  onValueChange={(value: string) =>
+                    handleFilterChange(
+                      "sortBy",
+                      value as ProductFilters["sortBy"], // ✅ casteo seguro
+                    )
                   }
                 >
                   <SelectTrigger>
@@ -168,13 +185,16 @@ export function ProductFiltersComponent({
               </div>
             </div>
 
-            {/* Stock */}
+            {/* Disponibilidad */}
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="inStock"
                 checked={filters.inStock || false}
-                onCheckedChange={(checked) =>
-                  handleFilterChange("inStock", checked || undefined)
+                onCheckedChange={(checked: CheckedState) =>
+                  handleFilterChange(
+                    "inStock",
+                    checked === true ? true : undefined, // ✅ solo true o undefined
+                  )
                 }
               />
               <Label htmlFor="inStock">Solo disponibles</Label>

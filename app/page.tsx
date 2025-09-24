@@ -1,4 +1,4 @@
-import { FeacturedProductsSection } from "@/src/components/feactured-products-section";
+import { FeacturedProductsSection } from "@/src/components/products/feactured-products-section";
 import { HeroSection } from "@/src/components/hero-section";
 import { StatsSection } from "@/src/components/stats-section";
 

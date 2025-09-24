@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
-import { ShoppingCart, Star } from "lucide-react";
+import { ChevronRight, Star } from "lucide-react";
 import { Product } from "@/src/types";
 import { formatCurrency } from "@/src/lib/utils";
 
@@ -67,8 +67,8 @@ export const ProductCard = ({ product }: Props) => {
 
         <Button asChild className="w-full">
           <Link href={`/products/${product.id}`}>
-            <ShoppingCart />
             Ver Detalles
+            <ChevronRight />
           </Link>
         </Button>
       </CardContent>

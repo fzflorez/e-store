@@ -1,4 +1,3 @@
-// src/lib/products.ts
 export type Product = {
   id: string;
   name: string;
@@ -26,19 +25,16 @@ export function filterProducts(
 ): Product[] {
   let result = [...products];
 
-  // 🔎 Búsqueda
   if (filters.search) {
     result = result.filter((p) =>
       p.name.toLowerCase().includes(filters.search!.toLowerCase()),
     );
   }
 
-  // 📂 Categoría
   if (filters.category) {
     result = result.filter((p) => p.category === filters.category);
   }
 
-  // 💰 Precio
   if (filters.minPrice !== undefined) {
     result = result.filter((p) => p.price >= filters.minPrice!);
   }
@@ -46,12 +42,10 @@ export function filterProducts(
     result = result.filter((p) => p.price <= filters.maxPrice!);
   }
 
-  // 📦 Stock
   if (filters.inStock) {
     result = result.filter((p) => p.inStock);
   }
 
-  // 🔃 Ordenamiento
   if (filters.sortBy) {
     result.sort((a, b) => {
       let valA: number | string = "";

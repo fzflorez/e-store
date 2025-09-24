@@ -1,37 +1,47 @@
 "use server";
 
 import { createClient } from "../auth/server";
+import { getErrorMessage } from "../lib/utils";
 
-export const loginAction = async (email: string, password: string) => {
+type ActionResult = {
+  errorMessage: string | null;
+};
+
+export const loginAction = async (
+  email: string,
+  password: string,
+): Promise<ActionResult> => {
   try {
     const supabase = await createClient();
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) throw error;
+    if (error) {
+      let customMessage = "Ha ocurrido un error, por favor intenta de nuevo.";
+
+      if (error.message === "Invalid login credentials") {
+        customMessage = "Correo o contraseña incorrectos";
+      }
+
+      return { errorMessage: customMessage };
+    }
 
     return { errorMessage: null };
-  } catch (error: any) {
-    return {
-      errorMessage:
-        error?.message || "Ha ocurrido un error, por favor intenta de nuevo.",
-    };
+  } catch (error: unknown) {
+    return { errorMessage: getErrorMessage(error) };
   }
 };
 
-export const logOutAction = async () => {
+export const logOutAction = async (): Promise<ActionResult> => {
   try {
     const supabase = await createClient();
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
 
     return { errorMessage: null };
-  } catch (error: any) {
-    return {
-      errorMessage:
-        error?.message || "Ha ocurrido un error, por favor intenta de nuevo.",
-    };
+  } catch (error: unknown) {
+    return { errorMessage: getErrorMessage(error) };
   }
 };
 
@@ -39,7 +49,7 @@ export const signUpAction = async (
   fullName: string,
   email: string,
   password: string,
-) => {
+): Promise<ActionResult> => {
   try {
     const supabase = await createClient();
 
@@ -51,16 +61,10 @@ export const signUpAction = async (
       },
     });
 
-    console.log(
-      "📩 Respuesta de Supabase signUp:",
-      JSON.stringify(data, null, 2),
-    );
-
     if (error) {
       return { errorMessage: error.message };
     }
 
-    // 🚨 Caso especial: usuario ya existe
     if (
       data.user &&
       Array.isArray(data.user.identities) &&
@@ -70,10 +74,7 @@ export const signUpAction = async (
     }
 
     return { errorMessage: null };
-  } catch (error: any) {
-    return {
-      errorMessage:
-        error?.message || "Ha ocurrido un error, por favor intenta de nuevo.",
-    };
+  } catch (error: unknown) {
+    return { errorMessage: getErrorMessage(error) };
   }
 };

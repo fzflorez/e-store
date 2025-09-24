@@ -1,6 +1,5 @@
 import { AuthForm } from "@/src/components/auth-form";
 import { Card, CardHeader, CardTitle } from "@/src/components/ui/card";
-import React from "react";
 
 const SignUpPage = () => {
   return (

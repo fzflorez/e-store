@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
+import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
-import { Badge } from "./ui/badge";
-import { Star } from "lucide-react";
-import { featuredProducts } from "../db/feactured-products";
-import { formatCurrency } from "../lib/utils";
+import { Badge } from "../ui/badge";
+import { ChevronRight, Star } from "lucide-react";
+import { featuredProducts } from "../../db/feactured-products";
+import { formatCurrency } from "../../lib/utils";
 
 export const FeacturedProductsSection = () => {
   return (
@@ -72,7 +72,10 @@ export const FeacturedProductsSection = () => {
                 )}
               </div>
               <Button asChild className="w-full">
-                <Link href={`/products/${product.id}`}>Ver detalles</Link>
+                <Link href={`/products/${product.id}`}>
+                  Ver detalles
+                  <ChevronRight />
+                </Link>
               </Button>
             </CardContent>
           </Card>

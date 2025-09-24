@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
